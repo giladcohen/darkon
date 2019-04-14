@@ -303,7 +303,7 @@ class Influence:
 
     def _get_inverse_hvp_lissa(self, sess, test_grad_loss):
         ihvp_config = self.ihvp_config
-        print_iter = ihvp_config['recursion_depth'] / 10
+        print_iter = np.ceil(ihvp_config['recursion_depth'] / 10)
 
         inverse_hvp = None
         for _ in range(ihvp_config['num_repeats']):
