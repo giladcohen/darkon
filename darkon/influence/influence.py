@@ -396,7 +396,7 @@ class Influence:
                     predicted_grad_diffs[counter] = self._grad_diff(sess, feed_dict, num_total_train_example, inverse_hvp)
                     counter += 1
 
-            if (it % 10) == 0:
+            if (it % 100) == 0:
                 logger.info('iter: {}/{}. score[{}]={}'.format(it, num_iters, counter - 1, predicted_grad_diffs[counter - 1]))
 
         return predicted_grad_diffs
