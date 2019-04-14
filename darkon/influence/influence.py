@@ -397,8 +397,8 @@ class Influence:
                     logger.info('count: {}, score: {}'.format(counter, predicted_grad_diffs[counter]))
                     counter += 1
 
-            if (it % 100) == 0:
-                logger.info('iter: {}/{}'.format(it, num_iters))
+            if (it % 10) == 0:
+                logger.info('iter: {}/{}. score[{}]={}'.format(it, num_iters, counter - 1, predicted_grad_diffs[counter - 1]))
 
         return predicted_grad_diffs
 
