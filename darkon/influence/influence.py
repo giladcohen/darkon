@@ -394,7 +394,6 @@ class Influence:
                 for single_data, single_label in zip(train_batch_data, train_batch_label):
                     feed_dict = self._make_train_feed_dict([single_data], [single_label])
                     predicted_grad_diffs[counter] = self._grad_diff(sess, feed_dict, num_total_train_example, inverse_hvp)
-                    logger.info('count: {}, score: {}'.format(counter, predicted_grad_diffs[counter]))
                     counter += 1
 
             if (it % 10) == 0:
