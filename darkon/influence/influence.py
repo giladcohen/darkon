@@ -35,6 +35,7 @@ import time
 import hashlib
 import json
 from functools import wraps
+from copy import copy, deepcopy
 
 _using_fully_tf = True
 
@@ -50,7 +51,7 @@ def _timing(f):
     return wrap
 
 
-class Influence:
+class Influence(object):
     """ Influence Class
 
     Parameters
@@ -432,3 +433,11 @@ class Influence:
 
     def _path(self, *paths):
         return os.path.join(self.workspace, *paths)
+
+    def __deepcopy__(self, memo):
+        cls = self.__class__
+        result = cls.__new__(cls)
+        memo[id(self)] = result
+        for k, v in self.__dict__.items():
+            setattr(result, k, deepcopy(v, memo))
+        return result
