@@ -438,6 +438,7 @@ class Influence(object):
         cls = self.__class__
         result = cls.__new__(cls)
         memo[id(self)] = result
-        for k, v in self.__dict__.items():
-            setattr(result, k, deepcopy(v, memo))
+        # for k, v in self.__dict__.items():
+        #     setattr(result, k, deepcopy(v, memo))
+        setattr(result, 'feeder', deepcopy(self.feeder, memo))
         return result
