@@ -253,12 +253,9 @@ class Influence(object):
         inv_hvp_path = self._path(self._approx_filename(sess, test_indices))
         if not os.path.exists(inv_hvp_path) or force_refresh:
             self.feeder.reset()
-            print("DEBUG: prior test_grad_loss")
             test_grad_loss = self._get_test_grad_loss(sess, test_indices, test_batch_size)
-            print("DEBUG: prior self.inverse_hvp")
             logger.info('Norm of test gradient: %s' % np.linalg.norm(np.concatenate([a.reshape(-1) for a in test_grad_loss])))
             self.inverse_hvp = self._get_inverse_hvp_lissa(sess, test_grad_loss)
-            print("DEBUG: prior np.savez(inv_hvp_path...)")
             np.savez(inv_hvp_path, inverse_hvp=self.inverse_hvp, encoding='bytes')
             logger.info('Saved inverse HVP to %s' % inv_hvp_path)
         else:
@@ -274,11 +271,8 @@ class Influence(object):
                 end = int(min((i + 1) * test_batch_size, len(test_indices)))
                 size = float(end - start)
 
-                print("DEBUG:: prior test_feed_dict. i={}, num_iter={}".format(i, num_iter))
                 test_feed_dict = self._make_test_feed_dict(*self.feeder.test_indices(test_indices[start:end]))
-                print("DEBUG:: prior sess.run(self.grad_op_test...). i={}, num_iter={}".format(i, num_iter))
                 temp = sess.run(self.grad_op_test, feed_dict=test_feed_dict)
-                print("DEBUG:: after sess.run(self.grad_op_test...). i={}, num_iter={}".format(i, num_iter))
                 temp = np.asarray(temp)
 
                 temp *= size
@@ -290,7 +284,6 @@ class Influence(object):
             test_grad_loss /= len(test_indices)
         else:
             raise RuntimeError('unsupported yet')
-        print("DEBUG:: about to exit _get_test_grad_loss")
         return test_grad_loss
 
     def _approx_filename(self, sess, test_indices):
