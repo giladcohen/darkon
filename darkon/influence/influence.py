@@ -274,8 +274,11 @@ class Influence(object):
                 end = int(min((i + 1) * test_batch_size, len(test_indices)))
                 size = float(end - start)
 
+                print("DEBUG:: prior test_feed_dict. i={}, num_iter={}".format(i, num_iter))
                 test_feed_dict = self._make_test_feed_dict(*self.feeder.test_indices(test_indices[start:end]))
+                print("DEBUG:: prior sess.run(self.grad_op_test...). i={}, num_iter={}".format(i, num_iter))
                 temp = sess.run(self.grad_op_test, feed_dict=test_feed_dict)
+                print("DEBUG:: after sess.run(self.grad_op_test...). i={}, num_iter={}".format(i, num_iter))
                 temp = np.asarray(temp)
 
                 temp *= size
@@ -287,6 +290,7 @@ class Influence(object):
             test_grad_loss /= len(test_indices)
         else:
             raise RuntimeError('unsupported yet')
+        print("DEBUG:: about to exit _get_test_grad_loss")
         return test_grad_loss
 
     def _approx_filename(self, sess, test_indices):
